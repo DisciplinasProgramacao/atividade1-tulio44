@@ -34,7 +34,6 @@ public abstract class Produto implements Comparable<Produto> {
     protected String descricao;
     protected double precoCusto;
     protected double margemLucro;
-        
     /**
      * Inicializador privado. Os valores default em caso de erro são:
      * "Produto sem descrição", R$0.01, 1 unidade, 0 unidades 
@@ -120,7 +119,6 @@ public abstract class Produto implements Comparable<Produto> {
     public int compareTo(Produto outro){
         return this.descricao.compareTo(outro.descricao);
     }
-
     /**
      * Igualdade de produtos: caso possuam o mesmo código. 
      * @param obj Outro produto a ser comparado 

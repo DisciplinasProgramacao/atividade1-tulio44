@@ -80,6 +80,7 @@ public class AppOficina {
         System.out.println("3 - Ordenar produtos");
         System.out.println("4 - Embaralhar produtos");
         System.out.println("5 - Listar produtos");
+        System.out.println("6 - Listar produtos");
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -88,7 +89,8 @@ public class AppOficina {
     static int exibirMenuOrdenadores() {
         cabecalho();
         System.out.println("1 - Bolha");
-        System.out.println("2 - Inserção");     
+        System.out.println("2 - Inserção");
+        System.out.println("3 - Merge");       
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -117,7 +119,29 @@ public class AppOficina {
         }
         return dadosCarregados;
     }
-
+    static Produto[] carregarProdutosPorCodigo(String nomeArquivo){
+        Scanner dados;
+        Produto[] dadosCarregados;
+        try{
+            dados = new Scanner(new File(nomeArquivo));
+            int tamanho = Integer.parseInt(dados.nextLine());
+            
+            dadosCarregados = new Produto[tamanho];
+            while (dados.hasNextLine()) {
+                Produto novoProduto = Produto.criarDoTexto(dados.nextLine());
+                dadosCarregados[quantProdutos] = novoProduto;
+                quantProdutos++;
+            }
+            dados.close();
+        }catch (FileNotFoundException fex){
+            System.out.println("Arquivo não encontrado. Produtos não carregados");
+            dadosCarregados = null;
+        }
+        IOrdenador ordernador = new BubbleSort<>();
+        ordenador.ordenar(dadosCarregados);
+        
+        return dadosCarregados;
+    }
 
     static Produto localizarProduto() {
         cabecalho();
@@ -159,6 +183,7 @@ public class AppOficina {
         cabecalho();
         System.out.println("1 - Padrão");
         System.out.println("2 - Ordenar por Valor");     
+        System.out.println("3 - Ordenar por Valor com desempate Alfabetico");  
         System.out.println("0 - Finalizar");
        
         return lerNumero("Digite sua opção", Integer.class);
@@ -174,10 +199,12 @@ public class AppOficina {
         switch (opcao) {
             case 1 -> ordenador = new BubbleSort<>();
             case 2 -> ordenador = new InsertSort<>();
+            case 3 -> ordenador = new Mergesort<>();
         }
         switch (ordenacao) {
             case 1 -> comp = Produto::compareTo;
             case 2 -> comp = new ComparadorPorValor();
+            case 3 -> comp = new ComparadorValorDesempateAlfabetico();
         }
 
         if(ordenador!=null){
